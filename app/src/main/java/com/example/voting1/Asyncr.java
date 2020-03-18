@@ -41,8 +41,8 @@ public class Asyncr extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        String log_url = "https://founditlost.000webhostapp.com/includes/login.php";
-        final String method = params[0];
+        String log_url = "waiting";
+       final String method = params[0];
         String response = "";
 
         String regno = params[1];
