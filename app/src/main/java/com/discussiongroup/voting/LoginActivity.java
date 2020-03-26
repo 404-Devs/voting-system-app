@@ -1,4 +1,4 @@
-package com.example.voting1;
+package com.discussiongroup.voting;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
@@ -20,7 +20,7 @@ import com.ncorti.slidetoact.SlideToActView;
 
 import www.sanju.motiontoast.MotionToast;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     Animation topdown, left;
     TextInputEditText regn, pass;
     SlideToActView login;
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         logo.setAnimation(left);
         slogan.setAnimation(left);
 
-
         login.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
 
             @Override
@@ -52,27 +51,22 @@ public class MainActivity extends AppCompatActivity {
                 final String reg = regn.getText().toString();
                 final String pswd = pass.getText().toString();
                 if (reg.length() > 0 && pswd.length() > 0) {
-
-
-                    MotionToast.Companion.createToast(MainActivity.this, reg,
-                            MotionToast.Companion.getTOAST_SUCCESS()
-                            , MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.createToast(LoginActivity.this, reg,
+                            MotionToast.Companion.getTOAST_SUCCESS(),
+                            MotionToast.Companion.getGRAVITY_BOTTOM(),
                             MotionToast.Companion.getSHORT_DURATION(),
-                            ResourcesCompat.getFont(MainActivity.this, R.font.alegreya_sc_italic));
+                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
 
-                    Intent next = new Intent(MainActivity.this, vote.class);
+                    Intent next = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(next);
                     finish();
-//                    login.resetSlider();
-
+                    // login.resetSlider();
                 } else {
-
-
-                    MotionToast.Companion.createToast(MainActivity.this, "FAILED",
-                            MotionToast.Companion.getTOAST_ERROR()
-                            , MotionToast.Companion.getGRAVITY_BOTTOM(),
+                    MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
+                            MotionToast.Companion.getTOAST_ERROR(),
+                            MotionToast.Companion.getGRAVITY_BOTTOM(),
                             MotionToast.Companion.getSHORT_DURATION(),
-                            ResourcesCompat.getFont(MainActivity.this, R.font.alegreya_sc_italic));
+                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
                     Handler wait = new Handler();
                     Runnable runner = new Runnable() {
                         @Override

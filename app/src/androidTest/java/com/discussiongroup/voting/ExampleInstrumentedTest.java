@@ -1,4 +1,4 @@
-package com.example.voting1;
+package com.discussiongroup.voting;
 
 import android.content.Context;
 
@@ -22,6 +22,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.voting1", appContext.getPackageName());
+        assertEquals("com.discussiongroup.voting", appContext.getPackageName());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.voting1;
+package com.discussiongroup.voting;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class Launch extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
     Animation topdown, left;
     ImageView launchimg;
     TextView launchtxt;
@@ -21,15 +21,14 @@ public class Launch extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_launch);
-        topdown = AnimationUtils.loadAnimation(this,R.anim.topdown);
-        left = AnimationUtils.loadAnimation(this,R.anim.txtanim);
+        setContentView(R.layout.activity_splash);
+        topdown = AnimationUtils.loadAnimation(this, R.anim.topdown);
+        left = AnimationUtils.loadAnimation(this, R.anim.txtanim);
         launchimg = findViewById(R.id.launch_logo);
         launchtxt = findViewById(R.id.launch_text);
 
         launchimg.setAnimation(topdown);
         launchtxt.setAnimation(left);
-
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -37,12 +36,10 @@ public class Launch extends AppCompatActivity {
                 Pair[] pairs= new Pair[2];
                 pairs[0] = new Pair<View,String>(launchimg,"logo");
                 pairs[1] = new Pair<View,String>(launchtxt,"txt");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(Launch.this,pairs);
-                Intent next = new Intent(Launch.this, MainActivity.class);
+                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, pairs);
+                Intent next = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(next,options.toBundle());
                 finish();
-
-
             }
         }, 5000);
     }

@@ -1,4 +1,4 @@
-package com.example.voting1;
+package com.discussiongroup.voting;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -31,7 +31,6 @@ public class Asyncr extends AsyncTask<String, Void, String> {
         this.ctx = ctx;
     }
 
-
     @Override
     protected void onPreExecute() {
         dialog = new AlertDialog.Builder(ctx).create();
@@ -40,9 +39,8 @@ public class Asyncr extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-
         String log_url = "waiting";
-       final String method = params[0];
+        final String method = params[0];
         String response = "";
 
         String regno = params[1];
@@ -62,7 +60,7 @@ public class Asyncr extends AsyncTask<String, Void, String> {
             write.close();
             os.close();
 
-//                    Response
+            //  Response
             InputStream io = conn.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(io, "iso-8859-1"));
             response = "";
@@ -74,14 +72,11 @@ public class Asyncr extends AsyncTask<String, Void, String> {
             io.close();
             conn.disconnect();
             return response;
-
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return response;
     }
 
@@ -97,14 +92,12 @@ public class Asyncr extends AsyncTask<String, Void, String> {
         String[] separated = result.split(":");
         SharedPreferences preferences = ctx.getSharedPreferences("info", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("remember", "true");
-        editor.putString("lname", separated[2]);
-        editor.putString("fname", separated[1]);
         editor.putString("regno", separated[0]);
-        editor.putString("phnoe", separated[3]);
+        editor.putString("fname", separated[1]);
+        editor.putString("lname", separated[2]);
+        editor.putString("phone", separated[3]);
+        editor.putString("remember", "true");
         editor.commit();
-
-
     }
 
     public static Bitmap getBitmapFromURL(String src) {
@@ -121,7 +114,4 @@ public class Asyncr extends AsyncTask<String, Void, String> {
             return null;
         }
     }
-
-
 }
-

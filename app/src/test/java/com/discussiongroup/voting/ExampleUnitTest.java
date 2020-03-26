@@ -1,4 +1,4 @@
-package com.example.voting1;
+package com.discussiongroup.voting;
 
 import org.junit.Test;
 
