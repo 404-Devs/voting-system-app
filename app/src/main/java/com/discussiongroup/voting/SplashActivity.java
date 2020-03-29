@@ -37,7 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                 pairs[0] = new Pair<View,String>(launchimg,"logo");
                 pairs[1] = new Pair<View,String>(launchtxt,"txt");
                 ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this, pairs);
-                Intent next = new Intent(SplashActivity.this, MainActivity.class);
+                Intent next = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(next,options.toBundle());
                 finish();
             }
