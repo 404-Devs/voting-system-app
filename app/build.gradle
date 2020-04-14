@@ -33,5 +33,5 @@ dependencies {
     implementation 'com.ncorti:slidetoact:0.8.0'
     implementation 'com.github.jd-alexander:android-flat-button:v1.1'
     implementation 'com.github.Spikeysanju:MotionToast:1.0'
-    implementation 'com.google.android.material:material:1.2.0-alpha05'
+    implementation 'com.google.android.material:material:1.2.0-alpha06'
 }
