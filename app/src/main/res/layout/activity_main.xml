@@ -1,9 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> e1a8fc8... Dashboard and Staff
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     tools:context=".MainActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+=======
+
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/alegreya_sc_italic"
+            android:padding="10dp"
+            android:text="ELECTIONS LIST: "
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/president"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/roundcorners"
+            android:padding="10dp"
+            android:text="UNSA 2020" />
+
+        <Button
+            android:id="@+id/nextp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/roundcorners"
+            android:padding="10dp"
+            android:text="UNSA 2019" />
+
+        <Button
+            android:id="@+id/nextp1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/roundcorners"
+            android:padding="10dp"
+            android:text="TEST ELECTION" />
+
+
+    </LinearLayout>
+
+</ScrollView>
+>>>>>>> e1a8fc8... Dashboard and Staff

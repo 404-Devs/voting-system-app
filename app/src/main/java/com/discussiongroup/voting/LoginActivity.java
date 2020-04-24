@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+<<<<<<< HEAD
+=======
+import android.widget.Toast;
+>>>>>>> e1a8fc8... Dashboard and Staff
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ncorti.slidetoact.SlideToActView;
@@ -51,22 +55,40 @@ public class LoginActivity extends AppCompatActivity {
                 final String reg = regn.getText().toString();
                 final String pswd = pass.getText().toString();
                 if (reg.length() > 0 && pswd.length() > 0) {
+<<<<<<< HEAD
                     MotionToast.Companion.createToast(LoginActivity.this, reg,
                             MotionToast.Companion.getTOAST_SUCCESS(),
                             MotionToast.Companion.getGRAVITY_BOTTOM(),
                             MotionToast.Companion.getSHORT_DURATION(),
                             ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+=======
+//                    MotionToast.Companion.createToast(LoginActivity.this, reg,
+//                            MotionToast.Companion.getTOAST_SUCCESS(),
+//                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+//                            MotionToast.Companion.getSHORT_DURATION(),
+//                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+                    Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
+>>>>>>> e1a8fc8... Dashboard and Staff
 
                     Intent next = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(next);
                     finish();
                     // login.resetSlider();
                 } else {
+<<<<<<< HEAD
                     MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
                             MotionToast.Companion.getTOAST_ERROR(),
                             MotionToast.Companion.getGRAVITY_BOTTOM(),
                             MotionToast.Companion.getSHORT_DURATION(),
                             ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+=======
+//                    MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
+//                            MotionToast.Companion.getTOAST_ERROR(),
+//                            MotionToast.Companion.getGRAVITY_BOTTOM(),
+//                            MotionToast.Companion.getSHORT_DURATION(),
+//                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+                    Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+>>>>>>> e1a8fc8... Dashboard and Staff
                     Handler wait = new Handler();
                     Runnable runner = new Runnable() {
                         @Override
