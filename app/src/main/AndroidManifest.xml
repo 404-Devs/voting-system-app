@@ -9,15 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+<<<<<<< HEAD
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+=======
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".SplashActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+>>>>>>> e1a8fc8... Dashboard and Staff
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+<<<<<<< HEAD
         <activity android:name=".VoteActivity" />
+=======
+        <activity android:name=".PartyActivity" />
+        <activity android:name=".Candidate" />
+>>>>>>> e1a8fc8... Dashboard and Staff
 
         <meta-data
             android:name="preloaded_fonts"
