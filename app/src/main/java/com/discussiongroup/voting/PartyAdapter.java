@@ -38,9 +38,6 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
         holder.partyname.setText(prt.get(position).getPartyName());
         holder.partyslogan.setText(prt.get(position).getPartySlogan());
         holder.prof.setImageResource(prt.get(position).getPartyLogo());
-
-
-
     }
 
     @Override
