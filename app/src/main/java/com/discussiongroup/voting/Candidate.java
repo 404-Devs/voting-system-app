@@ -20,7 +20,7 @@ public class Candidate extends AppCompatActivity implements CandidateClick {
     String pos;
     RecyclerView candidates_rv;
     AspirantsAdapter aspAdapt;
-    List<Aspirants> aspirants;
+    List<Aspirant> aspirants;
     Fragment aspirantVote;
     FragmentManager manageasp, manage;
 
@@ -31,7 +31,6 @@ public class Candidate extends AppCompatActivity implements CandidateClick {
         postitle = findViewById(R.id.txt_position);
         candidates_rv = findViewById(R.id.candidatesrv);
 
-
         manage = getSupportFragmentManager();
         aspirantVote = manage.findFragmentById(R.id.aspfrag);
         manage.beginTransaction().setCustomAnimations(R.anim.topdown, R.anim.out).hide(aspirantVote).commit();
@@ -40,14 +39,12 @@ public class Candidate extends AppCompatActivity implements CandidateClick {
         postitle.setText(getIntent().getExtras().getString("Party"));
         candidates_rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         aspirants = new ArrayList<>();
-        aspirants.add(new Aspirants(R.drawable.person, "Cand1", "Party1"));
-        aspirants.add(new Aspirants(R.drawable.person, "Cand2", "Party2"));
-        aspirants.add(new Aspirants(R.drawable.person, "Cand3", "Party3"));
-        aspirants.add(new Aspirants(R.drawable.person, "Cand4", "Party4"));
+        aspirants.add(new Aspirant(R.drawable.person, "Cand1", "Party1"));
+        aspirants.add(new Aspirant(R.drawable.person, "Cand2", "Party2"));
+        aspirants.add(new Aspirant(R.drawable.person, "Cand3", "Party3"));
+        aspirants.add(new Aspirant(R.drawable.person, "Cand4", "Party4"));
         aspAdapt = new AspirantsAdapter(Candidate.this, aspirants, this);
         candidates_rv.setAdapter(aspAdapt);
-
-
     }
 
     @Override
@@ -63,10 +60,8 @@ public class Candidate extends AppCompatActivity implements CandidateClick {
     }
 
     @Override
-    public void onAspirantClick(Aspirants aspirante, ImageView postimg) {
+    public void onAspirantClick(Aspirant aspirante, ImageView postimg) {
         candidates_rv.setVisibility(View.INVISIBLE);
         manage.beginTransaction().setCustomAnimations(R.anim.topdown, R.anim.out).show(aspirantVote).commit();
-
-
     }
 }

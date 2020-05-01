@@ -2,19 +2,21 @@ package com.discussiongroup.voting;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ncorti.slidetoact.SlideToActView;
@@ -71,29 +73,19 @@ public class LoginActivity extends AppCompatActivity {
                     try {
                         loginPost(reg, pswd);
                     } catch (Exception e) {
-                        Log.e("hey", e.toString());
+                        errorToast();
                         e.printStackTrace();
                     }
                 } else {
-                    MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
-                            MotionToast.Companion.getTOAST_ERROR(),
-                            MotionToast.Companion.getGRAVITY_BOTTOM(),
-                            MotionToast.Companion.getSHORT_DURATION(),
-                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
-//                    MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
-//                            MotionToast.Companion.getTOAST_ERROR(),
-//                            MotionToast.Companion.getGRAVITY_BOTTOM(),
-//                            MotionToast.Companion.getSHORT_DURATION(),
-//                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
-                    Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_SHORT).show();
-                    Handler wait = new Handler();
-                    Runnable runner = new Runnable() {
-                        @Override
-                        public void run() {
-                            login.resetSlider();
-                        }
-                    };
-                    wait.postDelayed(runner, 1000);
+                    errorToast();
+//                    Handler wait = new Handler();
+//                    Runnable runner = new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            login.resetSlider();
+//                        }
+//                    };
+//                    wait.postDelayed(runner, 1000);
                 }
             }
         });
@@ -112,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("hey", e.toString());
+                errorToast();
             }
 
             @Override
@@ -135,30 +127,25 @@ public class LoginActivity extends AppCompatActivity {
                         Intent next = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(next);
                         finish();
-                    } else {
-//                        login.resetSlider();
-                    }
+                    } else errorToast();
                 } catch (JSONException e) {
+                    errorToast();
                     e.printStackTrace();
                 }
+            }
+        });
+    }
 
-//                MotionToast.Companion.createToast(LoginActivity.this, reg_no,
-//                        MotionToast.Companion.getTOAST_SUCCESS(),
-//                        MotionToast.Companion.getGRAVITY_BOTTOM(),
-//                        MotionToast.Companion.getSHORT_DURATION(),
-//                        ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
-//                    MotionToast.Companion.createToast(LoginActivity.this, reg,
-//                            MotionToast.Companion.getTOAST_SUCCESS(),
-//                            MotionToast.Companion.getGRAVITY_BOTTOM(),
-//                            MotionToast.Companion.getSHORT_DURATION(),
-//                            ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
-//                Toast.makeText(LoginActivity.this, "Success", Toast.LENGTH_SHORT).show();
-
-//                MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
-//                        MotionToast.Companion.getTOAST_ERROR(),
-//                        MotionToast.Companion.getGRAVITY_BOTTOM(),
-//                        MotionToast.Companion.getSHORT_DURATION(),
-//                        ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+    public void errorToast() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                MotionToast.Companion.createToast(LoginActivity.this, "FAILED",
+                        MotionToast.Companion.getTOAST_ERROR(),
+                        MotionToast.Companion.getGRAVITY_TOP(),
+                        MotionToast.Companion.getSHORT_DURATION(),
+                        ResourcesCompat.getFont(LoginActivity.this, R.font.alegreya_sc_italic));
+                login.resetSlider();
             }
         });
     }

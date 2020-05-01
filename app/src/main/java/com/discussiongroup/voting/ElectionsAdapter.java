@@ -60,13 +60,6 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             btn = itemView.findViewById(R.id.electionBtn);
-
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    clk.onAspirantClick(candidates.get(getAdapterPosition()), prof);
-//                }
-//            });
         }
     }
 

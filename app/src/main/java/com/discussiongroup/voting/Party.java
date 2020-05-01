@@ -3,7 +3,6 @@ package com.discussiongroup.voting;
 
 
 public class Party {
-
     int partyLogo;
     String partySlogan;
     String partyName;

@@ -16,10 +16,10 @@ import java.util.List;
 
 public class AspirantsAdapter extends RecyclerView.Adapter<AspirantsAdapter.MyViewHolder> {
     Context ctx;
-    List<Aspirants> candidates;
+    List<Aspirant> candidates;
     CandidateClick clk;
 
-    public AspirantsAdapter(Context ctx, List<Aspirants> candidates, CandidateClick clk) {
+    public AspirantsAdapter(Context ctx, List<Aspirant> candidates, CandidateClick clk) {
         this.ctx = ctx;
         this.candidates = candidates;
         this.clk = clk;
@@ -36,7 +36,8 @@ public class AspirantsAdapter extends RecyclerView.Adapter<AspirantsAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull AspirantsAdapter.MyViewHolder holder, final int position) {
         holder.canName.setText(candidates.get(position).getAspirantName());
-        holder.prof.setImageResource(candidates.get(position).getProfileImg());
+        // base 64 image goes 'ere
+//        holder.prof.setImageResource(candidates.get(position).getAspirantPhoto());
         holder.morebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,13 +65,13 @@ public class AspirantsAdapter extends RecyclerView.Adapter<AspirantsAdapter.MyVi
             prof = itemView.findViewById(R.id.asp_prof_img);
             morebtn = itemView.findViewById(R.id.asp_more);
 
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clk.onAspirantClick(candidates.get(getAdapterPosition()), prof);
-                }
-            });
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    clk.onAspirantClick(candidates.get(getAdapterPosition()), prof);
+//                }
+//            });
         }
     }
 }

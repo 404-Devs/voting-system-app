@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
-                    final List<Election> elections = new ArrayList<Election>();
+                    final List<Election> elections = new ArrayList<>();
                     JSONObject responseObj = new JSONObject(Objects.requireNonNull(Objects.requireNonNull(response.body()).string()));
                     JSONObject dataObj = responseObj.getJSONObject("data");
                     Iterator<String> keys = dataObj.keys();
