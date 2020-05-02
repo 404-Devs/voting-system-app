@@ -19,7 +19,7 @@ public class PartyActivity extends AppCompatActivity implements PartyClick {
     RecyclerView candidates_rv;
     AspirantsAdapter aspAdapt;
     PartyAdapter partyadapter;
-    List<Aspirants> aspirants;
+    List<Aspirant> aspirants;
     List<Party> parties;
 
     @Override

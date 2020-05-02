@@ -78,14 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     errorToast();
-//                    Handler wait = new Handler();
-//                    Runnable runner = new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            login.resetSlider();
-//                        }
-//                    };
-//                    wait.postDelayed(runner, 1000);
+
                 }
             }
         });

@@ -13,13 +13,13 @@
 
         <ImageView
             android:id="@+id/img_rep"
-            android:layout_width="150dp"
+            android:layout_width="100dp"
             android:layout_height="150dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="242dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="16dp"
             android:src="@drawable/vote"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.72"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,6 +40,7 @@
             android:id="@+id/candidatesrv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layoutAnimation="@anim/layout_item_right"
             android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
