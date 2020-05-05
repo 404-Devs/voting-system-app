@@ -29,7 +29,7 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
             @Override
             public void onClick(View v) {
                 Toast.makeText(ctx, data.get(position).getElectionName(), Toast.LENGTH_LONG).show();
-                Intent next = new Intent(ctx, PartyActivity.class);
+                Intent next = new Intent(ctx, ViewElectionActivity.class);
                 next.putExtra("electionId", data.get(position).getElectionId());
                 next.putExtra("electionName", data.get(position).getElectionName());
                 next.putExtra("startTimestamp", data.get(position).getStartTimestamp());
@@ -37,15 +37,13 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
                 ctx.startActivity(next);
             }
         });
-
-
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(ctx).inflate(R.layout.election_list, parent, false);
-            return new ElectionsAdapter.MyViewHolder(view);
+            return new MyViewHolder(view);
     }
 
 
@@ -54,13 +52,12 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
         return data.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    static class MyViewHolder extends RecyclerView.ViewHolder {
         Button btn;
 
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
             btn = itemView.findViewById(R.id.electionBtn);
         }
     }
-
 }

@@ -1,9 +1,11 @@
 package com.discussiongroup.voting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,54 +17,50 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder> {
-    Context ctx;
-    List<Party> prt;
-    PartyClick clk;
+    private Context ctx;
+    private List<Party> data;
 
-    public PartyAdapter(Context ctx, List<Party> prt, PartyClick clk) {
+    PartyAdapter(Context ctx, List<Party> data) {
         this.ctx = ctx;
-        this.prt = prt;
-        this.clk = clk;
+        this.data = data;
+    }
 
+    @Override
+    public void onBindViewHolder(@NonNull PartyAdapter.MyViewHolder holder, final int position) {
+        holder.btn.setText(data.get(position).getName());
+        holder.btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent next = new Intent(ctx, PartyActivity.class);
+                next.putExtra("electionId", data.get(position).getElectionId());
+                next.putExtra("logo", data.get(position).getLogo());
+                next.putExtra("slogan", data.get(position).getSlogan());
+                next.putExtra("partyId", data.get(position).getId());
+                next.putExtra("name", data.get(position).getName());
+                ctx.startActivity(next);
+            }
+        });
     }
 
     @NonNull
     @Override
     public PartyAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.party, parent, false);
+        View view = LayoutInflater.from(ctx).inflate(R.layout.parties_list, parent, false);
         return new MyViewHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull PartyAdapter.MyViewHolder holder, final int position) {
-        holder.partyname.setText(prt.get(position).getPartyName());
-        holder.partyslogan.setText(prt.get(position).getPartySlogan());
-        holder.prof.setImageResource(prt.get(position).getPartyLogo());
-    }
 
     @Override
     public int getItemCount() {
-        return prt.size();
+        return data.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView prof;
-        TextView partyname, partyslogan;
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        Button btn;
 
-
-        public MyViewHolder(@NonNull View itemView) {
+        MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            prof = itemView.findViewById(R.id.asp_prof_img);
-            partyname = itemView.findViewById(R.id.prt_name);
-            partyslogan = itemView.findViewById(R.id.prt_slogan);
-
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clk.onPartClick(prt.get(getAdapterPosition()), prof);
-                }
-            });
+            btn = itemView.findViewById(R.id.partyBtn);
         }
     }
 }
