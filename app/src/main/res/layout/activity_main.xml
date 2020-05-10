@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,25 +18,50 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/regno"
-            android:layout_width="wrap_content"
-            android:fontFamily="@font/alegreya_sc_italic"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:text="Votr"
+            android:textSize="36sp"
+            android:paddingTop="32sp"
+            android:paddingStart="8sp"
+            android:textColor="@android:color/black"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
+            android:id="@+id/welcome_msg"
+            android:paddingStart="8sp"
+            android:textSize="16sp"
+            android:paddingTop="8sp"
+            android:paddingBottom="16sp"
+            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/alegreya_sc_italic"
-            android:textSize="25sp"
-            android:padding="20dp"
-            android:text="Elections List" />
+            tools:ignore="RtlSymmetry" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/electionsList"
             android:layoutAnimation="@anim/layout_fall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-    </LinearLayout>
 
-</ScrollView>
+
+    </LinearLayout>
+    </ScrollView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            style="@style/Widget.MaterialComponents.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

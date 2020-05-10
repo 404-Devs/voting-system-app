@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -31,6 +33,7 @@ import okhttp3.Response;
 public class ViewElectionActivity extends AppCompatActivity {
     final OkHttpClient client = new OkHttpClient();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +42,15 @@ public class ViewElectionActivity extends AppCompatActivity {
         TextView electionNameView = findViewById(R.id.electionName);
         TextView startView = findViewById(R.id.start);
         TextView endView = findViewById(R.id.end);
+        int electionId = intent.getIntExtra("electionId", 0);
         electionNameView.setText(intent.getStringExtra("electionName"));
         int startTimestamp = intent.getIntExtra("startTimestamp", 0);
-        startView.setText(String.valueOf(startTimestamp));
+        Date date = new Date();
+        date.setTime((long) startTimestamp*1000);
+        startView.setText("Start: " + date.toString());
         int endTimestamp = intent.getIntExtra("endTimestamp", 0);
-        endView.setText(String.valueOf(endTimestamp));
+        date.setTime((long) endTimestamp*1000);
+        endView.setText("End: " + date.toString());
         try {
             fetchElection(intent.getIntExtra("electionId", 0));
         } catch (Exception e) {
@@ -66,7 +73,6 @@ public class ViewElectionActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
                     final List<Party> parties = new ArrayList<>();
-//                    Log.e("hey", response.body().string());
                     JSONObject responseObj = new JSONObject(Objects.requireNonNull(Objects.requireNonNull(response.body()).string()));
                     JSONObject dataObj = responseObj.getJSONObject("parties");
                     Iterator<String> keys = dataObj.keys();
@@ -75,8 +81,8 @@ public class ViewElectionActivity extends AppCompatActivity {
                         JSONObject partyInfo = dataObj.getJSONObject(keys.next());
                         Party party = new Party(partyInfo.getInt("id"), electionId,
                                 partyInfo.getString("name"), partyInfo.getString("logo"),
-                                partyInfo.getString("slogan"), partyInfo.getInt("chairman_id"), partyInfo.getInt("treasurer_id"),
-                                partyInfo.getInt("sec_gen_id"));
+                                partyInfo.getString("slogan"), partyInfo.getString("chairman"),
+                                partyInfo.getString("treasurer"), partyInfo.getString("sec_gen"));
                         parties.add(party);
                     }
 
@@ -85,7 +91,7 @@ public class ViewElectionActivity extends AppCompatActivity {
                         public void run() {
                             RecyclerView partyListView = findViewById(R.id.partiesList);
                             partyListView.setLayoutManager(new LinearLayoutManager(ViewElectionActivity.this));
-                            PartyAdapter adapter = new PartyAdapter(ViewElectionActivity.this, parties);
+                            PartyAdapter adapter = new PartyAdapter(ViewElectionActivity.this, parties, electionId);
                             partyListView.setAdapter(adapter);
                         }
                     });

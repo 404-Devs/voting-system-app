@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".LoginActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -12,8 +12,7 @@ tools:context=".LoginActivity">
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="30dp"
-    android:paddingBottom="30dp">
+    android:padding="32dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -30,14 +29,12 @@ tools:context=".LoginActivity">
             android:transitionName="logo" />
 
         <TextView
-            android:id="@+id/logtxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/alegreya_sc_italic"
-            android:lineHeight="24dp"
-            android:transitionName="txt"
-            android:text="VOTE! \nCAUSE IT'S THE F'ING RIGHT THING TO DO"
-            android:textSize="16dp" />
+            android:gravity="center"
+            android:paddingTop="24sp"
+            android:text="Votr"
+            android:textSize="32sp" />
     </LinearLayout>
 
     <com.google.android.material.textfield.TextInputLayout

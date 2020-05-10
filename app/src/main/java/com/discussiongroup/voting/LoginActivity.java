@@ -2,8 +2,6 @@ package com.discussiongroup.voting;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -16,7 +14,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.ncorti.slidetoact.SlideToActView;
@@ -26,7 +23,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
+import java.util.Arrays;
 import java.util.Objects;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,7 +46,6 @@ public class LoginActivity extends AppCompatActivity {
     TextInputEditText regn, pass;
     SlideToActView login;
     ImageView logo;
-    TextView slogan;
     final OkHttpClient client = new OkHttpClient();
 
     @Override
@@ -58,9 +61,7 @@ public class LoginActivity extends AppCompatActivity {
         pass = findViewById(R.id.password);
         login = findViewById(R.id.login);
         logo = findViewById(R.id.logoimg);
-        slogan = findViewById(R.id.logtxt);
         logo.setAnimation(left);
-        slogan.setAnimation(left);
 
         login.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
             @Override
@@ -68,8 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                 final String reg = regn.getText().toString();
                 final String pswd = pass.getText().toString();
                 if (reg.length() > 0 && pswd.length() > 0) {
-                    // login bit goes 'ere
-
                     try {
                         loginPost(reg, pswd);
                     } catch (Exception e) {
@@ -84,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void loginPost(final String reg_no, String password) throws Exception {
+    public void loginPost(final String reg_no, final String password) throws Exception {
         RequestBody formBody = new FormBody.Builder()
                 .add("reg_no", reg_no)
                 .add("password", password)
@@ -115,6 +114,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt("id", data.getInt("id"));
                         editor.putString("email", data.getString("email"));
                         editor.putInt("school_id", data.getInt("school_id"));
+                        editor.putString("dibs", getEncryptedPassword(password, data.getString("dibs")));
                         editor.apply();
 
                         Intent next = new Intent(LoginActivity.this, MainActivity.class);
@@ -123,6 +123,10 @@ public class LoginActivity extends AppCompatActivity {
                     } else errorToast();
                 } catch (JSONException e) {
                     errorToast();
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                } catch (InvalidKeySpecException e) {
                     e.printStackTrace();
                 }
             }
@@ -141,5 +145,12 @@ public class LoginActivity extends AppCompatActivity {
                 login.resetSlider();
             }
         });
+    }
+
+    public static String getEncryptedPassword(String password, String salt)
+            throws NoSuchAlgorithmException, InvalidKeySpecException {
+        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 100000, 512);
+        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
+        return Arrays.toString(f.generateSecret(spec).getEncoded());
     }
 }

@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -24,7 +26,7 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull ElectionsAdapter.MyViewHolder holder, final int position) {
-        holder.btn.setText(data.get(position).getElectionName());
+        holder.title.setText(data.get(position).getElectionName());
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,10 +55,12 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        Button btn;
+        TextView title;
+        MaterialButton btn;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            title = itemView.findViewById(R.id.electionTitle);
             btn = itemView.findViewById(R.id.electionBtn);
         }
     }
