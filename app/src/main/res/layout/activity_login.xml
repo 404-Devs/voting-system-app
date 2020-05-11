@@ -8,7 +8,7 @@
 
 <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:gravity="center"
     android:orientation="vertical"
@@ -26,14 +26,15 @@
             android:layout_gravity="center_horizontal"
             android:scaleType="centerCrop"
             android:src="@drawable/v2"
-            android:transitionName="logo" />
+            android:transitionName="logo"
+            android:contentDescription="TODO" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:paddingTop="24sp"
-            android:text="Votr"
+            android:text="@string/votr"
             android:textSize="32sp" />
     </LinearLayout>
 
@@ -41,7 +42,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Registration Number"
+        android:hint="@string/registration_number"
         app:errorEnabled="true">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/regno"
@@ -53,15 +54,15 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/ic_lock"
-        android:hint="Password"
+        android:drawableStart="@drawable/ic_lock"
+        android:hint="@string/password"
         app:errorEnabled="true"
         app:passwordToggleEnabled="true">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_lock"
+            android:drawableStart="@drawable/ic_lock"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 

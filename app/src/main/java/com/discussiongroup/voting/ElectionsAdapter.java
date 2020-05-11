@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +29,6 @@ public class ElectionsAdapter extends RecyclerView.Adapter<ElectionsAdapter.MyVi
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ctx, data.get(position).getElectionName(), Toast.LENGTH_LONG).show();
                 Intent next = new Intent(ctx, ViewElectionActivity.class);
                 next.putExtra("electionId", data.get(position).getElectionId());
                 next.putExtra("electionName", data.get(position).getElectionName());

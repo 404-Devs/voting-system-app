@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -23,14 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.util.Arrays;
 import java.util.Objects;
-
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -65,9 +57,9 @@ public class LoginActivity extends AppCompatActivity {
 
         login.setOnSlideCompleteListener(new SlideToActView.OnSlideCompleteListener() {
             @Override
-            public void onSlideComplete(SlideToActView slideToActView) {
-                final String reg = regn.getText().toString();
-                final String pswd = pass.getText().toString();
+            public void onSlideComplete(@NotNull SlideToActView slideToActView) {
+                final String reg = Objects.requireNonNull(regn.getText()).toString();
+                final String pswd = Objects.requireNonNull(pass.getText()).toString();
                 if (reg.length() > 0 && pswd.length() > 0) {
                     try {
                         loginPost(reg, pswd);
@@ -77,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {
                     errorToast();
-
                 }
             }
         });
@@ -103,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
                     JSONObject responseObj = new JSONObject(Objects.requireNonNull(response.body()).string());
-                    Log.e("hey", responseObj.toString());
 
                     if (responseObj.get("status").equals("success")) {
                         JSONObject data = responseObj.getJSONObject("data");
@@ -114,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putInt("id", data.getInt("id"));
                         editor.putString("email", data.getString("email"));
                         editor.putInt("school_id", data.getInt("school_id"));
-                        editor.putString("dibs", getEncryptedPassword(password, data.getString("dibs")));
+                        editor.putString("dibs", data.getString("dibs"));
                         editor.apply();
 
                         Intent next = new Intent(LoginActivity.this, MainActivity.class);
@@ -123,10 +113,6 @@ public class LoginActivity extends AppCompatActivity {
                     } else errorToast();
                 } catch (JSONException e) {
                     errorToast();
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                } catch (InvalidKeySpecException e) {
                     e.printStackTrace();
                 }
             }
@@ -145,12 +131,5 @@ public class LoginActivity extends AppCompatActivity {
                 login.resetSlider();
             }
         });
-    }
-
-    public static String getEncryptedPassword(String password, String salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 100000, 512);
-        SecretKeyFactory f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA512");
-        return Arrays.toString(f.generateSecret(spec).getEncoded());
     }
 }

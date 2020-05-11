@@ -4,17 +4,20 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
@@ -25,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -36,18 +41,20 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-import static com.discussiongroup.voting.PartyActivity.decodeBase64;
-
 public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder> {
     private Context ctx;
     private List<Party> data;
     private OkHttpClient client = new OkHttpClient();
-    private int electionId;
+    private int electionId, startTimestamp, endTimestamp;
+    private boolean voted;
 
-    PartyAdapter(Context ctx, List<Party> data, int electionId) {
+    PartyAdapter(Context ctx, List<Party> data, int electionId, boolean voted, int startTimestamp, int endTimestamp) {
         this.ctx = ctx;
         this.data = data;
         this.electionId = electionId;
+        this.voted = voted;
+        this.startTimestamp = startTimestamp;
+        this.endTimestamp = endTimestamp;
     }
 
     @SuppressLint("SetTextI18n")
@@ -59,28 +66,44 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
         holder.treasurer.setText("Treasurer: " + data.get(position).getTreasurer());
         holder.sec_gen.setText("Secretary General: " + data.get(position).getSec_gen());
         holder.slogan.setText(data.get(position).getSlogan());
-        holder.voteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new MaterialAlertDialogBuilder(ctx)
-                        .setTitle("Vote for " + data.get(position).getName() + "?")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                try {
-                                    castVote(data.get(position).getId());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        })
-                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) { }
-                        })
-                        .show();
-            }
-        });
+        holder.voteCount.setText("#" + data.get(position).getVotes() + " VOTES");
+
+        if (!voted) {
+            holder.voteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    long unixTime = System.currentTimeMillis() / 1000L;
+                    if (unixTime < startTimestamp) {
+                        Date date = new Date();
+                        date.setTime((long) startTimestamp * 1000);
+                        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy @ hh:mm a");
+                        Toast.makeText(ctx, "Voting starts on " + dateFormat.format(date) + " ☺️", Toast.LENGTH_LONG).show();
+                    } else if (unixTime > endTimestamp) {
+                        Toast.makeText(ctx, "Sorry, the voting window has closed \uD83D\uDE22", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        new MaterialAlertDialogBuilder(ctx)
+                                .setTitle("Vote for " + data.get(position).getName() + "?")
+                                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        try {
+                                            castVote(data.get(position).getId());
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                })
+                                .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) { }
+                                })
+                                .show();
+                    }
+                }
+            });
+        }
+        else holder.voteBtn.setText("VOTED!");
     }
 
     @NonNull
@@ -98,7 +121,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title, slogan, chairman, treasurer, sec_gen;
-        MaterialButton voteBtn;
+        MaterialButton voteBtn, voteCount;
         ImageView partyLogo;
 
         MyViewHolder(@NonNull View itemView) {
@@ -110,11 +133,13 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
             chairman = itemView.findViewById(R.id.chairmanName);
             treasurer = itemView.findViewById(R.id.treasurerName);
             sec_gen = itemView.findViewById(R.id.secGenName);
+            voteCount = itemView.findViewById(R.id.voteCount);
         }
     }
 
-    public void castVote(int teamId) throws Exception {
+    private void castVote(int teamId) throws Exception {
         SharedPreferences sharedPref = ctx.getSharedPreferences("profile", Context. MODE_PRIVATE);
+        Log.e("hey", sharedPref.getString("dibs", "-1-"));
         RequestBody formBody = new FormBody.Builder()
                 .add("voter_reg", sharedPref.getString("reg_no", "-1-"))
                 .add("election_id", String.valueOf(electionId))
@@ -135,6 +160,7 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 try {
                     JSONObject responseObj = new JSONObject(Objects.requireNonNull(Objects.requireNonNull(response.body()).string()));
+                    Log.e("hey", responseObj.toString());
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
@@ -147,5 +173,11 @@ public class PartyAdapter extends RecyclerView.Adapter<PartyAdapter.MyViewHolder
                 }
             }
         });
+    }
+
+    private static Bitmap decodeBase64(String base64String) {
+        base64String = base64String.substring(base64String.indexOf(",") + 1);
+        final byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

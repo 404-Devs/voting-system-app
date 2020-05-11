@@ -19,7 +19,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:text="Votr"
+            android:text="@string/votr"
             android:textSize="36sp"
             android:paddingTop="32sp"
             android:paddingStart="8sp"
@@ -49,8 +49,6 @@
     </ScrollView>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -61,7 +59,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right"
             android:layout_margin="16dp"
-            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"/>
+            app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
+            tools:ignore="RtlHardcoded" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </RelativeLayout>

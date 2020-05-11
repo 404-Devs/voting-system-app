@@ -5,7 +5,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,9 +17,9 @@ import android.widget.TextView;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -32,6 +34,7 @@ import okhttp3.Response;
 
 public class ViewElectionActivity extends AppCompatActivity {
     final OkHttpClient client = new OkHttpClient();
+    int startTimestamp, endTimestamp;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -42,15 +45,16 @@ public class ViewElectionActivity extends AppCompatActivity {
         TextView electionNameView = findViewById(R.id.electionName);
         TextView startView = findViewById(R.id.start);
         TextView endView = findViewById(R.id.end);
-        int electionId = intent.getIntExtra("electionId", 0);
+//        int electionId = intent.getIntExtra("electionId", 0);
         electionNameView.setText(intent.getStringExtra("electionName"));
-        int startTimestamp = intent.getIntExtra("startTimestamp", 0);
+        startTimestamp = intent.getIntExtra("startTimestamp", 0);
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy @ hh:mm a");
         Date date = new Date();
-        date.setTime((long) startTimestamp*1000);
-        startView.setText("Start: " + date.toString());
-        int endTimestamp = intent.getIntExtra("endTimestamp", 0);
-        date.setTime((long) endTimestamp*1000);
-        endView.setText("End: " + date.toString());
+        date.setTime((long) startTimestamp * 1000);
+        startView.setText("Start: " + dateFormat.format(date));
+        endTimestamp = intent.getIntExtra("endTimestamp", 0);
+        date.setTime((long) endTimestamp * 1000);
+        endView.setText("End: " + dateFormat.format(date));
         try {
             fetchElection(intent.getIntExtra("electionId", 0));
         } catch (Exception e) {
@@ -59,8 +63,9 @@ public class ViewElectionActivity extends AppCompatActivity {
     }
 
     public void fetchElection(final int electionId) throws Exception {
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("profile", Context. MODE_PRIVATE);
         Request request = new Request.Builder()
-                .url("https://votingtest.herokuapp.com/api/election/" + electionId)
+                .url("https://votingtest.herokuapp.com/api/election/" + electionId + "/" + sharedPref.getInt("id", 0))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -74,7 +79,8 @@ public class ViewElectionActivity extends AppCompatActivity {
                 try {
                     final List<Party> parties = new ArrayList<>();
                     JSONObject responseObj = new JSONObject(Objects.requireNonNull(Objects.requireNonNull(response.body()).string()));
-                    JSONObject dataObj = responseObj.getJSONObject("parties");
+                    final JSONObject dataObj = responseObj.getJSONObject("parties");
+                    final JSONObject dataObj2 = responseObj.getJSONObject("data");
                     Iterator<String> keys = dataObj.keys();
 
                     while (keys.hasNext()) {
@@ -82,7 +88,8 @@ public class ViewElectionActivity extends AppCompatActivity {
                         Party party = new Party(partyInfo.getInt("id"), electionId,
                                 partyInfo.getString("name"), partyInfo.getString("logo"),
                                 partyInfo.getString("slogan"), partyInfo.getString("chairman"),
-                                partyInfo.getString("treasurer"), partyInfo.getString("sec_gen"));
+                                partyInfo.getString("treasurer"), partyInfo.getString("sec_gen"),
+                                partyInfo.getInt("votes"));
                         parties.add(party);
                     }
 
@@ -91,7 +98,13 @@ public class ViewElectionActivity extends AppCompatActivity {
                         public void run() {
                             RecyclerView partyListView = findViewById(R.id.partiesList);
                             partyListView.setLayoutManager(new LinearLayoutManager(ViewElectionActivity.this));
-                            PartyAdapter adapter = new PartyAdapter(ViewElectionActivity.this, parties, electionId);
+                            PartyAdapter adapter = null;
+                            try {
+                                adapter = new PartyAdapter(ViewElectionActivity.this, parties,
+                                        electionId, dataObj2.getBoolean("voted"), startTimestamp, endTimestamp);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                             partyListView.setAdapter(adapter);
                         }
                     });

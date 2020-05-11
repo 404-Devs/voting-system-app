@@ -2,16 +2,10 @@ package com.discussiongroup.voting;
 
 
 class Party {
-    int id, electionId;
-    String name;
-    String logo;
-    String slogan;
+    private int votes, id, electionId;
+    private String name, logo, slogan, chairman, treasurer, sec_gen;
 
-    String chairman;
-    String treasurer;
-    String sec_gen;
-
-    Party(int partyId, int election_id, String name, String logo, String slogan, String chairman, String treasurer, String sec_gen) {
+    Party(int partyId, int election_id, String name, String logo, String slogan, String chairman, String treasurer, String sec_gen, int votes) {
         id = partyId;
         electionId = election_id;
         this.name = name;
@@ -20,6 +14,7 @@ class Party {
         this.chairman = chairman;
         this.treasurer = treasurer;
         this.sec_gen = sec_gen;
+        this.votes = votes;
     }
 
     public int getId() {
@@ -46,7 +41,7 @@ class Party {
         this.name = name;
     }
 
-    public String getLogo() {
+    String getLogo() {
         return logo;
     }
 
@@ -54,7 +49,7 @@ class Party {
         this.logo = logo;
     }
 
-    public String getSlogan() {
+    String getSlogan() {
         return slogan;
     }
 
@@ -74,15 +69,23 @@ class Party {
         this.sec_gen = sec_gen;
     }
 
-    public String getChairman() {
+    String getChairman() {
         return chairman;
     }
 
-    public String getTreasurer() {
+    String getTreasurer() {
         return treasurer;
     }
 
-    public String getSec_gen() {
+    String getSec_gen() {
         return sec_gen;
+    }
+
+    int getVotes() {
+        return votes;
+    }
+
+    public void setVotes(int votes) {
+        this.votes = votes;
     }
 }

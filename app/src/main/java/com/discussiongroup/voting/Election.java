@@ -5,7 +5,7 @@ public class Election {
     private String electionName;
     private Integer startTimestamp, endTimestamp;
 
-    public Election(int elId, String elName, Integer start, Integer end) {
+    Election(int elId, String elName, Integer start, Integer end) {
         this.electionId = elId;
         this.electionName = elName;
         this.startTimestamp = start;
@@ -13,7 +13,7 @@ public class Election {
     }
 
 
-    public int getElectionId() {
+    int getElectionId() {
         return electionId;
     }
 
@@ -21,7 +21,7 @@ public class Election {
         this.electionId = electionId;
     }
 
-    public String getElectionName() {
+    String getElectionName() {
         return electionName;
     }
 
@@ -29,7 +29,7 @@ public class Election {
         this.electionName = electionName;
     }
 
-    public Integer getStartTimestamp() {
+    Integer getStartTimestamp() {
         return startTimestamp;
     }
 
@@ -37,7 +37,7 @@ public class Election {
         this.startTimestamp = startTimestamp;
     }
 
-    public Integer getEndTimestamp() {
+    Integer getEndTimestamp() {
         return endTimestamp;
     }
 
